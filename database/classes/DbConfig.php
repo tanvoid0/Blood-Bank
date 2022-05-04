@@ -1,18 +1,16 @@
 <?php
+include_once "env/Env.php";
+
 class DbConfig
 {
-	private $_host = 'localhost';
-	private $_username = 'root';
-	private $_password = '';
-	private $_database = 'bb';
-
-	protected $connection;
+	protected mysqli $connection;
 
 	public function __construct()
 	{
+		// Connection
 		if (!isset($this->connection)) {
-
-			$this->connection = new mysqli($this->_host, $this->_username, $this->_password, $this->_database);
+			$env = new Env(EnvType::Production);;
+			$this->connection = new mysqli($env->host, $env->username, $env->password, $env->database, $env->port);
 
 			if (!$this->connection) {
 				echo 'Cannot connect to database server';
@@ -23,4 +21,9 @@ class DbConfig
 		return $this->connection;
 	}
 }
+
+
+
+
+
 ?>
